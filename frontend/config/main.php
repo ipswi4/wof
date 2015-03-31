@@ -25,6 +25,23 @@ return [
                 ],
             ],
         ],
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'enableStrictParsing' => false,
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'routeParam'=>'url',
+            'rules' => [
+                'gii' => 'gii',
+                'debug' => 'debug',
+                'league/<id:\d+>' => 'league/view',
+                'club/<id:\d+>' => 'club/view',
+
+                '<cmd:\w+>/<action:\w+>'=>'<cmd>/<action>',
+                '<cmd:\w+>/<action:\w+>/<state:\w+>'=>'<cmd>/<action>/<state>',
+                '<cmd:\w+>/<action:\w+>/<state:\w+>/<sid:\w+>'=>'<cmd>/<action>/<state>/<sid>',
+                ]
+            ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
