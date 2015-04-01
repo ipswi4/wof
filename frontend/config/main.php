@@ -35,7 +35,12 @@ return [
                 'gii' => 'gii',
                 'debug' => 'debug',
                 'league/<id:\d+>' => 'league/view',
+
                 'club/<id:\d+>' => 'club/view',
+
+                'season/<id:\d+>' => 'season/view',
+                'season/<id:\d+>/calendar' => 'season/calendar',
+                'season/<id:\d+>/generate' => 'season/generate',
 
                 '<cmd:\w+>/<action:\w+>'=>'<cmd>/<action>',
                 '<cmd:\w+>/<action:\w+>/<state:\w+>'=>'<cmd>/<action>/<state>',

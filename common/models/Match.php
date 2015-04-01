@@ -11,7 +11,6 @@ use Yii;
  * @property string $title
  * @property integer $team1
  * @property integer $team2
- * @property integer $status_id
  * @property integer $result_id
  * @property string $score
  * @property integer $tour_id
@@ -36,7 +35,7 @@ class Match extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['team1', 'team2', 'status_id', 'result_id', 'tour_id'], 'integer'],
+            [['team1', 'team2', 'result_id', 'tour_id'], 'integer'],
             [['title', 'score'], 'string', 'max' => 255]
         ];
     }
@@ -80,5 +79,10 @@ class Match extends \yii\db\ActiveRecord
     public function getStatus()
     {
         return $this->hasOne(MatchStatus::className(), ['id' => 'status_id']);
+    }
+
+    public function getTextScore()
+    {
+        return ($this->result->id == MatchResult::NO_PLAYED) ? '0 - 0' : $this->score;
     }
 }

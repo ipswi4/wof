@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\helpers\api\GeneratorSeason;
 use common\models\League;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
@@ -21,7 +22,7 @@ class LeagueController extends \yii\web\Controller
 
     public function actionView($id)
     {
-        return $this->render('view', ['league'=>$this->findModel($id)]);
+        return $this->render('view', ['league' => $this->findModel($id)]);
     }
 
     protected function findModel($id)

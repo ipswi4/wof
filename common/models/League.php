@@ -11,6 +11,7 @@ use Yii;
  * @property string $title
  *
  * @property Club[] $clubs
+ * @property Season[] $seasons
  */
 class League extends \yii\db\ActiveRecord
 {
@@ -49,5 +50,10 @@ class League extends \yii\db\ActiveRecord
     public function getClubs()
     {
         return $this->hasMany(Club::className(), ['league_id' => 'id']);
+    }
+
+    public function getSeasons()
+    {
+        return $this->hasMany(Season::className(), ['league_id' => 'id']);
     }
 }

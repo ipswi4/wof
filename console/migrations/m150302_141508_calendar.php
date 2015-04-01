@@ -32,7 +32,7 @@ class m150302_141508_calendar extends Migration
         $this->createIndex('club','season_club','club_id');
         $this->createIndex('season','season_club','season_id');
         $this->addForeignKey('club2season','season_club','club_id','club','id','RESTRICT','RESTRICT');
-        $this->addForeignKey('sason2club','season_club','season_id','season','id','RESTRICT','RESTRICT');
+        $this->addForeignKey('season2club','season_club','season_id','season','id','RESTRICT','RESTRICT');
 
         for($i=1;$i<=20;$i++){
             $this->insert('season_club',['club_id'=>$i,'season_id'=>1]);

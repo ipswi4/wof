@@ -14,6 +14,12 @@ use Yii;
  */
 class MatchResult extends \yii\db\ActiveRecord
 {
+
+    const NO_PLAYED = 1;
+    const WIN1 = 2;
+    const DRAW = 3;
+    const WIN2 = 4;
+    const CANCELED = 5;
     /**
      * @inheritdoc
      */

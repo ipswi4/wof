@@ -1,20 +1,16 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $league \common\models\League */
+/* @var array $tours */
 use yii\helpers\Html;
 
 ?>
-
+<?= Html::a('[calendar]',['league/calendar','id'=>$league->id]) ?>
 <div class="row league-index">
     <div class="col-md-6">
-        <h1><?= Html::encode($this->title) ?></h1>
-        <table class="table">
-            <?php foreach($league->clubs as $club): ?>
-            <tr>
-                <td><?= $club->id; ?></td>
-                <td><?= Html::a(Html::encode($club->title),['club/view','id'=>$club->id]) ?></td>
-            </tr>
-            <?php endforeach ?>
-        </table>
-
+        <h2>Сезоны</h2>
+        <?php foreach($league->seasons as $season): ?>
+            <?= Html::a(Html::encode($season->title),['season/view','id'=>$season->id]) ?>
+        <?php endforeach ?>
+    </div>
 </div>
