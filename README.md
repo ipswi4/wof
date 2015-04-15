@@ -1,2 +1,2 @@
-Me football Manager
+My football Manager
 ===================================
