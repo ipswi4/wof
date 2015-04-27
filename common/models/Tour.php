@@ -10,12 +10,17 @@ use Yii;
  * @property integer $id
  * @property string $title
  * @property integer $season_id
+ * @property integer $played
  *
  * @property Match[] $matches
  * @property Season $season
  */
 class Tour extends \yii\db\ActiveRecord
 {
+
+    const PLAYED = 1;
+    const NOT_PLAYED = 0;
+
     /**
      * @inheritdoc
      */

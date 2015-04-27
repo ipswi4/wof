@@ -17,6 +17,7 @@ use Yii;
  *
  * @property League $league
  * @property Tour[] $tours
+ * @property Tour $nextTour
  */
 class Season extends \yii\db\ActiveRecord
 {
@@ -77,5 +78,10 @@ class Season extends \yii\db\ActiveRecord
     public function getTours()
     {
         return $this->hasMany(Tour::className(), ['season_id' => 'id']);
+    }
+
+    public function getNextTour()
+    {
+        return $this->hasOne(Tour::className(), ['season_id' => 'id'])->andWhere(['played'=>Tour::NOT_PLAYED])->orderBy('id');
     }
 }

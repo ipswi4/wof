@@ -3,10 +3,13 @@
 namespace frontend\controllers;
 
 use common\helpers\api\GeneratorSeason;
+use common\models\League;
 use common\models\Match;
+use common\models\MatchResult;
 use common\models\Season;
 use common\models\Tour;
 use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
 
 class SeasonController extends \yii\web\Controller
 {
@@ -22,6 +25,45 @@ class SeasonController extends \yii\web\Controller
         //$tours = GeneratorSeason::buildCalendar($clubs);
 
         return $this->render('calendar', ['season'=>$season]);
+    }
+
+    public function actionNextGame()
+    {
+        $season = Season::findOne(1);
+        /** @var Season $season */
+
+        /** @var Tour $nextTour */
+        $nextTour = $season->nextTour;
+
+        if (!$nextTour) throw new ServerErrorHttpException("season is over");
+
+        $matches = $nextTour->matches;
+
+        foreach($matches as $match){
+
+            $score1 = rand(0,5);
+            $score2 = rand(0,5);
+
+            if ($score1>$score2){
+                $match->result_id = MatchResult::WIN1;
+            }
+
+            if ($score1==$score2){
+                $match->result_id = MatchResult::DRAW;
+            }
+
+            if ($score1<$score2){
+                $match->result_id = MatchResult::WIN2;
+            }
+
+            $match->score = $score1.":".$score2;
+
+            $match->save();
+        }
+
+        $nextTour->played = Tour::PLAYED;
+        $nextTour->save();
+
     }
 
     public function actionGenerate($id)

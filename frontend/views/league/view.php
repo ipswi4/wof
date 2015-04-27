@@ -5,7 +5,7 @@
 use yii\helpers\Html;
 
 ?>
-<?= Html::a('[calendar]',['league/calendar','id'=>$league->id]) ?>
+<?php Html::a('[calendar]',['league/calendar','id'=>$league->id]) ?>
 <div class="row league-index">
     <div class="col-md-6">
         <h2>Сезоны</h2>

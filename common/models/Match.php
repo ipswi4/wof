@@ -83,6 +83,6 @@ class Match extends \yii\db\ActiveRecord
 
     public function getTextScore()
     {
-        return ($this->result->id == MatchResult::NO_PLAYED) ? '0 - 0' : $this->score;
+        return ($this->result->id == MatchResult::NO_PLAYED) ? '-' : $this->score;
     }
 }
