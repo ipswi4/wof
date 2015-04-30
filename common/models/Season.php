@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 
 /**
@@ -18,6 +19,7 @@ use Yii;
  * @property League $league
  * @property Tour[] $tours
  * @property Tour $nextTour
+ * @property Tour[] $playersTours
  */
 class Season extends \yii\db\ActiveRecord
 {
@@ -80,8 +82,14 @@ class Season extends \yii\db\ActiveRecord
         return $this->hasMany(Tour::className(), ['season_id' => 'id']);
     }
 
+    public function getPlayersTours()
+    {
+        return $this->hasMany(Tour::className(), ['season_id' => 'id'])->andWhere(['played'=>Tour::PLAYED]);
+    }
+
     public function getNextTour()
     {
         return $this->hasOne(Tour::className(), ['season_id' => 'id'])->andWhere(['played'=>Tour::NOT_PLAYED])->orderBy('id');
     }
+
 }

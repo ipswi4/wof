@@ -6,6 +6,11 @@ use yii\helpers\Html;
 
 ?>
 <?= Html::a('[season]',['season/view','id'=>$season->id]) ?>
+<div class="row">
+    <div class="col-md-6">
+        <?= \frontend\widgets\Standings::widget(['season'=>$season]) ?>
+    </div>
+</div>
 <div class="row league-index">
     <?php foreach($season->tours as $tour): ?>
         <div class="col-md-4" style="margin-top: 20px;">
