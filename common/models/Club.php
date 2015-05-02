@@ -13,6 +13,7 @@ use Yii;
  *
  * @property League $league
  * @property Player[] $players
+ * @property User $user
  */
 class Club extends \yii\db\ActiveRecord
 {
@@ -62,16 +63,26 @@ class Club extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Player::className(), ['club_id' => 'id']);
     }
-
+/*
     public function getSeasonClubs()
     {
         return $this->hasMany(SeasonClub::className(), ['season_id' => 'id']);
     }
-
+*/
 
     public function getSeasons()
     {
         return $this->hasMany(Season::className(), ['id','season_id'])
-            ->via('SeasonClubs');;
+            ->via('SeasonClubs');
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['club_id'=>'id']);
+    }
+
+    public static function getAllClubNotCoach(){
+        return Club::find()->joinWith('user')->where(['user.id'=>null])->all();
+    }
+
 }

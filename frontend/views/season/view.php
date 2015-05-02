@@ -13,6 +13,7 @@ use yii\helpers\Html;
                 <tr>
                     <td><?= $club->id; ?></td>
                     <td><?= Html::a(Html::encode($club->title),['club/view','id'=>$club->id]) ?></td>
+                    <td><?= ($user = $club->user)?$user->username:"нет тренера" ?></td>
                 </tr>
             <?php endforeach ?>
         </table>

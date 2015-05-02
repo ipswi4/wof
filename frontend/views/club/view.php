@@ -4,7 +4,14 @@
 use yii\helpers\Html;
 
 ?>
+<div class="row">
+    <?php
+        if ($club->user){
+            echo "Тренер: ".$club->user->username;
+        } else echo "Тренера нет";
 
+    ?>
+</div>
 <div class="row league-index">
     <div class="col-md-6">
         <h1><?= Html::encode($this->title) ?></h1>
