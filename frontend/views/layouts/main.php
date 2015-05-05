@@ -33,6 +33,7 @@ AppAsset::register($this);
                 ],
             ]);
             $menuItems = [
+                ['label' => 'News', 'url' => ['news/index']],
                 ['label' => 'League', 'url' => ['league/index']],
             ];
             if (Yii::$app->user->isGuest) {
