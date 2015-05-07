@@ -39,6 +39,7 @@ class NewsController extends Controller
             'query' => News::find(),
             'pagination' => [
                 'pageSize' => 3,
+                'forcePageParam' => false,
                 'pageSizeParam' => false,
             ],
         ]);

@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'attribute' => 'title',
                 'value' => function ($data) {
-                     return Html::a(Html::encode($data->title), ['news/view/' . $data->id]);
+                     return Html::a(Html::encode($data->title), ['news/' . $data->id]);
                 }, 'label' => 'Title'
             ],
 

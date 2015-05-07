@@ -38,6 +38,12 @@ return [
 
                 'club/<id:\d+>' => 'club/view',
 
+                'news/<id:\d+>' => 'news/view',
+
+                '<controller:\w+>/page/<page:\d+>' => '<controller>/index',
+                '<controller:\w+>' => '<controller>/index',
+
+
                 'season/<id:\d+>' => 'season/view',
                 'season/<id:\d+>/calendar' => 'season/calendar',
                 'season/<id:\d+>/generate' => 'season/generate',
