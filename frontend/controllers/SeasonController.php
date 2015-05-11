@@ -9,14 +9,12 @@ use common\models\MatchResult;
 use common\models\Season;
 use common\models\Tour;
 use common\models\Player;
+use common\models\Position;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
 class SeasonController extends \yii\web\Controller
 {
-
-    protected $powerSum;
-
 
     public function actionView($id)
     {
@@ -54,22 +52,35 @@ class SeasonController extends \yii\web\Controller
             $powerSum1 = $this->findPowerTeam($team1);
             $powerSum2 = $this->findPowerTeam($team2);
 
+            $score1 = 0;
+            $score2 = 0;
 
+            // определяем счет
             if ($powerSum1>$powerSum2){
                 $score1 = rand(2,5);
-                $score2 = rand(0,1);
-                $match->result_id = MatchResult::WIN1;
+                $score2 = rand(0,3);
             }
 
-            if ($powerSum1==$powerSum2){
-                $score1 = rand(2,5);
-                $score2 = $score1;
-                $match->result_id = MatchResult::DRAW;
+            if ($powerSum1=$powerSum2){
+                $score1 = rand(1,5);
+                $score2 = rand(0,5);
             }
 
             if ($powerSum1<$powerSum2){
-                $score1 = rand(0,1);
+                $score1 = rand(0,3);
                 $score2 = rand(2,5);
+            }
+
+            // сравниваем счет
+            if ($score1>$score2){
+                $match->result_id = MatchResult::WIN1;
+            }
+
+            if ($score1==$score2){
+                $match->result_id = MatchResult::DRAW;
+            }
+
+            if ($score1<$score2){
                 $match->result_id = MatchResult::WIN2;
             }
 
@@ -147,16 +158,14 @@ class SeasonController extends \yii\web\Controller
 
     protected function findPowerTeam($team)
     {
-        $gk = [];
-        $ld = [];
-        $cd = [];
-        $rd = [];
-        $lm = [];
-        $cm = [];
-        $rm = [];
-        $cf = [];
-
-        $powerSum = 0;
+        $gkMas = [];
+        $ldMas = [];
+        $cdMas = [];
+        $rdMas = [];
+        $lmMas = [];
+        $cmMas = [];
+        $rmMas = [];
+        $cfMas = [];
 
         // находим всех игроков данного клуба, сортируя по power
         $allPlayers = Player::find()
@@ -166,51 +175,39 @@ class SeasonController extends \yii\web\Controller
 
         foreach($allPlayers as $player)
         {
-            if($player['position_id'] == 1)
-            {
-                $gk[] = $player['power'];
-            }
 
-            if($player['position_id'] == 2)
-            {
-                $ld[] = $player['power'];
-            }
-
-            if($player['position_id'] == 3)
-            {
-                $cd[] = $player['power'];
-            }
-
-            if($player['position_id'] == 4)
-            {
-                $rd[] = $player['power'];
-            }
-
-            if($player['position_id'] == 5)
-            {
-                $lm[] = $player['power'];
-            }
-
-            if($player['position_id'] == 6)
-            {
-                $cm[] = $player['power'];
-            }
-
-            if($player['position_id'] == 7)
-            {
-                $rm[] = $player['power'];
-            }
-
-            if($player['position_id'] == 8)
-            {
-                $cf[] = $player['power'];
+            switch ($player['position_id']) {
+                case Position::GK:
+                    $gkMas[] = $player['power'];
+                    break;
+                case Position::LD:
+                    $ldMas[] = $player['power'];
+                    break;
+                case Position::CD:
+                    $cdMas[] = $player['power'];
+                    break;
+                case Position::RD:
+                    $rdMas[] = $player['power'];
+                    break;
+                case Position::LM:
+                    $lmMas[] = $player['power'];
+                    break;
+                case Position::CM:
+                    $cmMas[] = $player['power'];
+                    break;
+                case Position::RM:
+                    $rmMas[] = $player['power'];
+                    break;
+                case Position::CF:
+                    $cfMas[] = $player['power'];
+                    break;
             }
 
         }
 
-        $powerSum = $gk[0] + $ld[0] + $cd[0] + $cd[1] + $rd[0] + $lm[0] + $cm[0] + $cm[1] + $rm[0] + $cf[0] + $cf[1];
+        return $gkMas[0] + $ldMas[0] + $cdMas[0] + $cdMas[1] + $rdMas[0] + $lmMas[0] + $cmMas[0] + $cmMas[1]
+                + $rmMas[0] + $cfMas[0] + $cfMas[1];
 
-        return $powerSum;
     }
 
 }

@@ -14,6 +14,17 @@ use Yii;
  */
 class Position extends \yii\db\ActiveRecord
 {
+
+    const GK = 1;
+    const LD = 2;
+    const CD = 3;
+    const RD = 4;
+    const LM = 5;
+    const CM = 6;
+    const RM = 7;
+    const CF = 8;
+
+
     /**
      * @inheritdoc
      */
