@@ -30,6 +30,7 @@ class SeasonController extends \yii\web\Controller
         return $this->render('calendar', ['season'=>$season]);
     }
 
+
     public function actionNextGame()
     {
         $season = Season::findOne(1);
@@ -61,7 +62,7 @@ class SeasonController extends \yii\web\Controller
                 $score2 = rand(0,3);
             }
 
-            if ($powerSum1=$powerSum2){
+            if ($powerSum1==$powerSum2){
                 $score1 = rand(1,5);
                 $score2 = rand(0,5);
             }
@@ -70,6 +71,7 @@ class SeasonController extends \yii\web\Controller
                 $score1 = rand(0,3);
                 $score2 = rand(2,5);
             }
+
 
             // сравниваем счет
             if ($score1>$score2){
@@ -88,27 +90,6 @@ class SeasonController extends \yii\web\Controller
 
             $match->save();
 
-
-            /*
-            $score1 = rand(0,5);
-            $score2 = rand(0,5);
-
-            if ($score1>$score2){
-                $match->result_id = MatchResult::WIN1;
-            }
-
-            if ($score1==$score2){
-                $match->result_id = MatchResult::DRAW;
-            }
-
-            if ($score1<$score2){
-                $match->result_id = MatchResult::WIN2;
-            }
-
-            $match->score = $score1.":".$score2;
-
-            $match->save();
-            */
         }
 
         $nextTour->played = Tour::PLAYED;
@@ -156,57 +137,34 @@ class SeasonController extends \yii\web\Controller
     }
 
 
+    /**
+     * Считает силу состава
+     * @param $team id команды
+     * @return int сила команды
+     */
     protected function findPowerTeam($team)
     {
-        $gkMas = [];
-        $ldMas = [];
-        $cdMas = [];
-        $rdMas = [];
-        $lmMas = [];
-        $cmMas = [];
-        $rmMas = [];
-        $cfMas = [];
+
+        $roster = [];
 
         // находим всех игроков данного клуба, сортируя по power
         $allPlayers = Player::find()
             ->where(['club_id' => $team])
-            ->orderBy('power')
+            ->orderBy(['power'=>SORT_DESC])
             ->all();
 
         foreach($allPlayers as $player)
         {
+            /** @var Player $player */
 
-            switch ($player['position_id']) {
-                case Position::GK:
-                    $gkMas[] = $player['power'];
-                    break;
-                case Position::LD:
-                    $ldMas[] = $player['power'];
-                    break;
-                case Position::CD:
-                    $cdMas[] = $player['power'];
-                    break;
-                case Position::RD:
-                    $rdMas[] = $player['power'];
-                    break;
-                case Position::LM:
-                    $lmMas[] = $player['power'];
-                    break;
-                case Position::CM:
-                    $cmMas[] = $player['power'];
-                    break;
-                case Position::RM:
-                    $rmMas[] = $player['power'];
-                    break;
-                case Position::CF:
-                    $cfMas[] = $player['power'];
-                    break;
-            }
+            $roster[$player->position_id][] = $player->power;
 
         }
 
-        return $gkMas[0] + $ldMas[0] + $cdMas[0] + $cdMas[1] + $rdMas[0] + $lmMas[0] + $cmMas[0] + $cmMas[1]
-                + $rmMas[0] + $cfMas[0] + $cfMas[1];
+        return $roster[Position::GK][0] + $roster[Position::LD][0] + $roster[Position::CD][0] +
+               $roster[Position::CD][1] + $roster[Position::RD][0] + $roster[Position::LM][0] +
+               $roster[Position::CM][0] + $roster[Position::CM][1] + $roster[Position::RM][0] +
+               $roster[Position::CF][0] + $roster[Position::CF][1];
 
     }
 

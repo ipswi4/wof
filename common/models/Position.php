@@ -24,7 +24,6 @@ class Position extends \yii\db\ActiveRecord
     const RM = 7;
     const CF = 8;
 
-
     /**
      * @inheritdoc
      */
