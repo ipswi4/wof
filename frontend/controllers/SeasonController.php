@@ -8,11 +8,16 @@ use common\models\Match;
 use common\models\MatchResult;
 use common\models\Season;
 use common\models\Tour;
+use common\models\Player;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
 class SeasonController extends \yii\web\Controller
 {
+
+    protected $powerSum;
+
+
     public function actionView($id)
     {
         return $this->render('view', ['season'=>$this->findModel($id)]);
@@ -41,6 +46,39 @@ class SeasonController extends \yii\web\Controller
 
         foreach($matches as $match){
 
+            // определяем номер команды
+            $team1 = $match->team1;
+            $team2 = $match->team2;
+
+            // находим сумму power команд
+            $powerSum1 = $this->findPowerTeam($team1);
+            $powerSum2 = $this->findPowerTeam($team2);
+
+
+            if ($powerSum1>$powerSum2){
+                $score1 = rand(2,5);
+                $score2 = rand(0,1);
+                $match->result_id = MatchResult::WIN1;
+            }
+
+            if ($powerSum1==$powerSum2){
+                $score1 = rand(2,5);
+                $score2 = $score1;
+                $match->result_id = MatchResult::DRAW;
+            }
+
+            if ($powerSum1<$powerSum2){
+                $score1 = rand(0,1);
+                $score2 = rand(2,5);
+                $match->result_id = MatchResult::WIN2;
+            }
+
+            $match->score = $score1.":".$score2;
+
+            $match->save();
+
+
+            /*
             $score1 = rand(0,5);
             $score2 = rand(0,5);
 
@@ -59,6 +97,7 @@ class SeasonController extends \yii\web\Controller
             $match->score = $score1.":".$score2;
 
             $match->save();
+            */
         }
 
         $nextTour->played = Tour::PLAYED;
@@ -106,5 +145,72 @@ class SeasonController extends \yii\web\Controller
     }
 
 
+    protected function findPowerTeam($team)
+    {
+        $gk = [];
+        $ld = [];
+        $cd = [];
+        $rd = [];
+        $lm = [];
+        $cm = [];
+        $rm = [];
+        $cf = [];
+
+        $powerSum = 0;
+
+        // находим всех игроков данного клуба, сортируя по power
+        $allPlayers = Player::find()
+            ->where(['club_id' => $team])
+            ->orderBy('power')
+            ->all();
+
+        foreach($allPlayers as $player)
+        {
+            if($player['position_id'] == 1)
+            {
+                $gk[] = $player['power'];
+            }
+
+            if($player['position_id'] == 2)
+            {
+                $ld[] = $player['power'];
+            }
+
+            if($player['position_id'] == 3)
+            {
+                $cd[] = $player['power'];
+            }
+
+            if($player['position_id'] == 4)
+            {
+                $rd[] = $player['power'];
+            }
+
+            if($player['position_id'] == 5)
+            {
+                $lm[] = $player['power'];
+            }
+
+            if($player['position_id'] == 6)
+            {
+                $cm[] = $player['power'];
+            }
+
+            if($player['position_id'] == 7)
+            {
+                $rm[] = $player['power'];
+            }
+
+            if($player['position_id'] == 8)
+            {
+                $cf[] = $player['power'];
+            }
+
+        }
+
+        $powerSum = $gk[0] + $ld[0] + $cd[0] + $cd[1] + $rd[0] + $lm[0] + $cm[0] + $cm[1] + $rm[0] + $cf[0] + $cf[1];
+
+        return $powerSum;
+    }
 
 }
