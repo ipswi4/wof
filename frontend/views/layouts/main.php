@@ -35,6 +35,7 @@ AppAsset::register($this);
             $menuItems = [
                 ['label' => 'News', 'url' => ['news/index']],
                 ['label' => 'League', 'url' => ['league/index']],
+                ['label' => 'Admin', 'url' => ['admin/default/index']],
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
