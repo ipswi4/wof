@@ -47,6 +47,11 @@ return [
 
                 'news/<id:\d+>' => 'news/view',
 
+                'admin/news/<id:\d+>' => 'admin/news/view',
+                'admin/news/update/<id:\d+>' => 'admin/news/update',
+                'admin/news/delete/<id:\d+>' => 'admin/news/delete',
+
+
                 '<controller:\w+>/page/<page:\d+>' => '<controller>/index',
                 '<controller:\w+>' => '<controller>/index',
 

@@ -4,8 +4,8 @@ namespace frontend\widgets;
 
 use Yii;
 use yii\base\Widget;
-use common\models\Comment;
-use frontend\models\CommentForm;
+use frontend\modules\admin\models\Comment;
+use frontend\modules\admin\models\CommentForm;
 
 
 class CommentList extends Widget

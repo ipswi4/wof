@@ -1,8 +1,8 @@
 <?php
 
-use common\models\News;
-use frontend\models\CommentForm;
-use frontend\widgets\CommentFormWidget;
+use frontend\modules\admin\models\News;
+use frontend\modules\admin\models\Comment;
+use frontend\modules\admin\models\CommentForm;
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
