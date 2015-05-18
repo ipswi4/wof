@@ -58,14 +58,8 @@ return [
 
 
                 // news
-                'news/<id:\d+>' => 'admin/news/view',
-                'news/update/<id:\d+>' => 'admin/news/update',
-                'news/delete/<id:\d+>' => 'admin/news/delete',
-                'news' => 'admin/news/index',
-
-                'news/list' => 'admin/news/list',
-                'news/list/<id:\d+>' => 'admin/news/listview',
-
+                'news/<id:\d+>' => 'news/view',
+                'news' => 'news/list',
 
 
                 // admin

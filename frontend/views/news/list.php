@@ -16,7 +16,7 @@ use yii\helpers\Html;
             'format' => 'html',
             'attribute' => 'title',
             'value' => function ($data) {
-                return Html::a(Html::encode($data->title), ['news/listview', 'id' => $data->id]);
+                return Html::a(Html::encode($data->title), ['news/view', 'id' => $data->id]);
             }, 'label' => 'Title'
         ],
 

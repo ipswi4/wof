@@ -18,7 +18,7 @@ use yii\filters\VerbFilter;
 /**
  * NewsController implements the CRUD actions for News model.
  */
-class NewsController extends Controller
+class NewsController extends DashboardController
 {
 
 
@@ -138,42 +138,5 @@ class NewsController extends Controller
     }
 
 
-    /**
-     * Lists all News models.
-     * @return mixed
-     */
-    public function actionList()
-    {
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => News::find(),
-            'pagination' => [
-                'pageSize' => 3,
-                'forcePageParam' => false,
-                'pageSizeParam' => false,
-            ],
-        ]);
-
-        return $this->render('list',
-            [
-                'dataProvider'=>$dataProvider
-            ]
-        );
-
-    }
-
-    /**
-     * Displays a single News model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionListview($id)
-    {
-
-        return $this->render('listview', [
-            'model' => $this->findModel($id),
-        ]);
-
-    }
 
 }

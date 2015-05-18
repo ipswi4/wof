@@ -2,23 +2,10 @@
 
 namespace frontend\modules\admin\controllers;
 
-use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 
-class DefaultController extends Controller
+class DefaultController extends DashboardController
 {
 
-    public function beforeAction($action)
-    {
-        if (parent::beforeAction($action)) {
-
-            if (!\Yii::$app->user->can('dashboad')) {
-                \Yii::$app->response->redirect('/site/login');
-                throw new ForbiddenHttpException('Доступ запрещен');
-            }
-
-        }
-    }
 
     public function actionIndex()
     {

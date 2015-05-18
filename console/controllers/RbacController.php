@@ -14,6 +14,20 @@ class RbacController extends Controller
 
         $auth = Yii::$app->authManager;
 
+        $user = User::findOne(['username'=>'adm']);
+        if (!$user){
+            $user = new User();
+            $user->id = 2;
+            $user->username = 'adm';
+            $user->email = 'max@twinscom.ru';
+            $user->setPassword('123456');
+            $user->generateAuthKey();
+            $user->username = "Админ";
+            $user->status = User::STATUS_ACTIVE;
+            $user->role = User::ROLE_ADMIN;
+            $user->save();
+        }
+
         $auth->removeAll(); //удаляем старые данные
 
         //Добавляем роли
