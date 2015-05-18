@@ -1,6 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: kos
+ * Date: 30.04.2015
+ * Time: 20:50
+ */
 
-namespace frontend\modules\admin\models;
+namespace frontend\models;
 
 
 use yii\base\Model;

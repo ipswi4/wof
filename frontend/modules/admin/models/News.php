@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\admin\models;
+namespace frontend\modules\admin\models;
 
 use Yii;
 
@@ -13,6 +13,7 @@ use Yii;
  */
 class News extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

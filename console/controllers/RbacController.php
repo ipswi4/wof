@@ -13,7 +13,9 @@ class RbacController extends Controller
     {
 
         $auth = Yii::$app->authManager;
+
         $auth->removeAll(); //удаляем старые данные
+
         //Добавляем роли
         $user = $auth->createRole('user');
         $admin = $auth->createRole('admin');
@@ -22,10 +24,11 @@ class RbacController extends Controller
         $updateOwnProfile = $auth->createPermission('updateOwnProfile');
 
         $auth->add($dashboard);
-        //Включаем наш обработчик
 
+        //Включаем наш обработчик
         $rule = new UserRoleRule();
         $userProfileOwnerRule = new UserProfileOwnerRule();
+
         $auth->add($rule);
         $auth->add($userProfileOwnerRule);
         $user->ruleName = $rule->name;
@@ -35,6 +38,7 @@ class RbacController extends Controller
         $auth->add($admin);
         $auth->add($updateOwnProfile);
         $auth->addChild($user, $updateOwnProfile);
+
         //Добавляем потомков
         $auth->addChild($admin, $user);
         $auth->addChild($admin, $dashboard);

@@ -20,7 +20,9 @@ class UserRoleRule extends Rule
         //Получаем массив пользователя из базы
         $user = ArrayHelper::getValue($params, 'user', User::findOne($user));
         if ($user) {
+
             $role = $user->role; //Значение из поля role базы данных
+
             if ($item->name === 'admin') {
                 return $role == User::ROLE_ADMIN;
             }

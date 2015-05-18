@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use common\helpers\api\GeneratorSeason;
-use common\models\League;
 use common\models\Match;
 use common\models\MatchResult;
 use common\models\Season;

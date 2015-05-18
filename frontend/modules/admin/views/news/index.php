@@ -5,7 +5,6 @@ use yii\grid\GridView;
 
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\NewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'News';

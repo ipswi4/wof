@@ -1,7 +1,6 @@
 <?php
 
 use frontend\modules\admin\models\News;
-use frontend\modules\admin\models\Comment;
 use frontend\modules\admin\models\CommentForm;
 
 use yii\helpers\Html;
@@ -27,23 +26,41 @@ JS;
 $this->registerJs($js);
 ?>
 
+<br />
+
+
+
+<br />
+
 <?php \yii\widgets\Pjax::begin(['options' => ['class' => 'pjax-comment']]); ?>
 
     <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ]]); ?>
 
-        <?php foreach($model->comments as $comment): ?>
-            <div class="row">
-                <?= "Author: " . Html::encode($comment->author) ?>
-            </div>
+        <? if ($model->comments):?>
 
-            <div class="row">
-                <?= "Comment: " . Html::encode($comment->text) ?>
-            </div>
+            <div class="row">Комментарии:</div>
 
             <br />
+            <br />
 
-        <?php endforeach ?>
+            <?php foreach($model->comments as $comment): ?>
+                <div class="row">
+                    <?= "Author: " . Html::encode($comment->author) ?>
+                </div>
 
+                <div class="row">
+                    <?= "Comment: " . Html::encode($comment->text) ?>
+                </div>
+
+                <br />
+
+            <?php endforeach ?>
+
+        <? endif ?>
+
+        <br />
+        <div class="row">Добавить комментарий:</div>
+        <br />
 
         <?= $form->field($formModel, 'author')->label('Author') ?>
 

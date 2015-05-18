@@ -14,7 +14,7 @@ return [
 
     'modules' => [
         'admin' => [
-            'class' => 'app\modules\admin\adminModule',
+            'class' => 'frontend\modules\admin\AdminModule',
         ],
     ],
 
@@ -41,24 +41,44 @@ return [
             'rules' => [
                 'gii' => 'gii',
                 'debug' => 'debug',
+
+
+                // league
                 'league/<id:\d+>' => 'league/view',
 
+
+                // club
                 'club/<id:\d+>' => 'club/view',
 
-                'news/<id:\d+>' => 'news/view',
 
-                'admin/news/<id:\d+>' => 'admin/news/view',
-                'admin/news/update/<id:\d+>' => 'admin/news/update',
-                'admin/news/delete/<id:\d+>' => 'admin/news/delete',
+                // season
+                'season/<id:\d+>' => 'season/view',
+                'season/<id:\d+>/calendar' => 'season/calendar',
+                'season/<id:\d+>/generate' => 'season/generate',
+
+
+                // news
+                'news/<id:\d+>' => 'admin/news/view',
+                'news/update/<id:\d+>' => 'admin/news/update',
+                'news/delete/<id:\d+>' => 'admin/news/delete',
+                'news' => 'admin/news/index',
+
+                'news/list' => 'admin/news/list',
+                'news/list/<id:\d+>' => 'admin/news/listview',
+
+
+
+                // admin
+                'admin'=>'admin/default/index',
+
+
+                // captcha
+                'admin/site/captcha'=>'site/captcha',
 
 
                 '<controller:\w+>/page/<page:\d+>' => '<controller>/index',
                 '<controller:\w+>' => '<controller>/index',
 
-
-                'season/<id:\d+>' => 'season/view',
-                'season/<id:\d+>/calendar' => 'season/calendar',
-                'season/<id:\d+>/generate' => 'season/generate',
 
                 '<cmd:\w+>/<action:\w+>'=>'<cmd>/<action>',
                 '<cmd:\w+>/<action:\w+>/<state:\w+>'=>'<cmd>/<action>/<state>',
