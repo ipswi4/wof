@@ -18,13 +18,13 @@ class DashboardController extends Controller{
     public function beforeAction($action){
         if (parent::beforeAction($action)) {
 
-            var_dump(\Yii::$app->user->can('user'));exit;
-
             if (!\Yii::$app->user->can('dashboad')) {
                 //\Yii::$app->response->redirect('/site/login');
                 throw new ForbiddenHttpException('Access denied');
             }
+
             return true;
+
         } else {
             return false;
         }

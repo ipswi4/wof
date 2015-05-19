@@ -7,9 +7,6 @@ namespace frontend\modules\admin\controllers;
 use frontend\modules\admin\models\News;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -136,7 +133,5 @@ class NewsController extends DashboardController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
-
 
 }
