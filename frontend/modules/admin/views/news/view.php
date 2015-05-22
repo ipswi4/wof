@@ -40,11 +40,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
-            'text:ntext',
+
+            [
+                'format' => 'html',
+                'attribute' => 'text',
+                'value'=> $model->text,
+            ],
+
+            [
+                'format' => 'html',
+                'attribute' => 'tags',
+                'value'=> $model->getGenresText(),
+                'label' => 'Tags',
+            ],
+
         ],
     ]) ?>
 
+
+    <? // вывод картинки ?>
+    <?= Html::img('@web/' . $model->image) ?>
+
+
     <? // вывод комментариев и формы ?>
     <?= CommentList::widget(['news'=>$model]); ?>
+
 
 </div>

@@ -8,6 +8,7 @@ class m150423_190205_news extends Migration
     public function up()
     {
         $tableOptions = null;
+
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
         }
@@ -15,7 +16,8 @@ class m150423_190205_news extends Migration
         $this->createTable('news', [
             'id' => Schema::TYPE_PK,
             'title' => Schema::TYPE_STRING,
-            'text' => Schema::TYPE_TEXT
+            'text' => Schema::TYPE_TEXT,
+            'image' => Schema::TYPE_STRING,
         ], $tableOptions);
     }
 

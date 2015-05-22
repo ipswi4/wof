@@ -9,7 +9,11 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
+use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
+use Imagine\Imagick\Imagine;
 
 
 /**
@@ -77,8 +81,35 @@ class NewsController extends DashboardController
     {
         $model = new News();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) )  {
+
+
+            // название картинки как название заголовка новости
+            $imageName = $model->title;
+
+
+            // сохраняем файл
+            $model->file = UploadedFile::getInstance($model,'file');
+
+            $model->file->saveAs('uploads/' . $imageName . '.' . $model->file->extension);
+
+
+            // меняем размер изображения
+            $imagine = new Imagine();
+
+            $imagine->open('uploads/' . $imageName . '.' . $model->file->extension)
+                ->thumbnail(new Box(1280, 960), ImageInterface::THUMBNAIL_INSET)
+                ->save('uploads/' . $imageName . '.' . $model->file->extension);
+
+
+            // сохраняем название файла в БД
+            $model->image = 'uploads/' . $imageName . '.' . $model->file->extension;
+
+            $model->save();
+
+
             return $this->redirect('index');
+
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -96,8 +127,32 @@ class NewsController extends DashboardController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) )  {
+
+            // название картинки как название заголовка новости
+            $imageName = $model->title;
+
+            // сохраняем файл
+            $model->file = UploadedFile::getInstance($model,'file');
+
+            $model->file->saveAs('uploads/' . $imageName . '.' . $model->file->extension);
+
+
+            // меняем размер изображения
+            $imagine = new Imagine();
+
+            $imagine->open('uploads/' . $imageName . '.' . $model->file->extension)
+                ->thumbnail(new Box(1100, 960), ImageInterface::THUMBNAIL_INSET)
+                ->save('uploads/' . $imageName . '.' . $model->file->extension);
+
+            // сохраняем название файла в БД
+            $model->image = 'uploads/' . $imageName . '.' . $model->file->extension;
+
+            $model->save();
+
+
             return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -133,5 +188,6 @@ class NewsController extends DashboardController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 
 }

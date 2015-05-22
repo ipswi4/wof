@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use frontend\modules\admin\models\News;
 use Yii;
 
 /**

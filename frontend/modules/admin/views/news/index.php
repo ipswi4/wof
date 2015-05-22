@@ -1,5 +1,6 @@
 <?php
 
+use frontend\modules\admin\models\News;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -32,10 +33,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'title',
                 'value' => function ($data) {
                      return Html::a(Html::encode($data->title), ['news/view', 'id' => $data->id]);
-                }, 'label' => 'Title'
+                },
+                'label' => 'Title',
             ],
 
-            'text',
+            [
+                'format' => 'html',
+                'attribute' => 'text',
+                'value'=> function($data){
+                    return $data->text;
+                }
+            ],
+
+            [
+                'format' => 'html',
+                'attribute' => 'tags',
+                'value'=> function($data){
+                    /** @var News $data */
+                    return $data->getGenresText();
+                },
+                'label' => 'Tags',
+            ],
+
+            'image',
+
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

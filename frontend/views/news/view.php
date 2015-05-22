@@ -34,6 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+
+    <? // вывод картинки ?>
+    <?= Html::img('@web/' . $model->image) ?>
+
+
     <? // вывод комментариев и формы ?>
     <?= CommentList::widget(['news'=>$model]); ?>
 
