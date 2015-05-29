@@ -53,13 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=> $model->getGenresText(),
                 'label' => 'Tags',
             ],
+            'rating',
 
         ],
     ]) ?>
 
 
     <? // вывод картинки ?>
-    <?= Html::img('@web/' . $model->image) ?>
+    <? if($model->image){
+        echo Html::img('/uploads/' . $model->image);
+    } ?>
 
 
     <? // вывод комментариев и формы ?>

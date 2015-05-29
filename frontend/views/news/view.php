@@ -3,6 +3,7 @@
 namespace frontend\widgets\CommentFormWidget;
 
 use frontend\modules\admin\models\News;
+use Yii;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\DetailView;
@@ -10,7 +11,13 @@ use yii\widgets\DetailView;
 
 use frontend\widgets\CommentFormWidget;
 use frontend\widgets\CommentList;
+use frontend\widgets\Voting;
 
+?>
+
+
+
+<?php
 
 /* @var $this View */
 /* @var $model News */
@@ -35,8 +42,17 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 
+
     <? // вывод картинки ?>
-    <?= Html::img('@web/' . $model->image) ?>
+    <?= ($model->image) ? Html::img('/uploads/' . $model->image) : "" ?>
+
+
+    <br />
+    <br />
+
+
+    <? // голосование ?>
+    <?= Voting::widget(['vote'=>$model]); ?>
 
 
     <? // вывод комментариев и формы ?>

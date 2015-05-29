@@ -3,30 +3,29 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m150423_190205_news extends Migration
+class m150519_165318_tag extends Migration
 {
     public function up()
     {
         $tableOptions = null;
-
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('news', [
+        $this->createTable('tag', [
             'id' => Schema::TYPE_PK,
-            'title' => Schema::TYPE_STRING,
-            'text' => Schema::TYPE_TEXT,
-            'image' => Schema::TYPE_STRING,
-            'rating' => Schema::TYPE_INTEGER,
+            'frequency' => Schema::TYPE_INTEGER,
+            'name' => Schema::TYPE_STRING
         ], $tableOptions);
+
     }
 
     public function down()
     {
-        $this->dropTable('news');
+        $this->dropTable('tag');
     }
-    
+
+
     /*
     // Use safeUp/safeDown to run migration code within a transaction
     public function safeUp()

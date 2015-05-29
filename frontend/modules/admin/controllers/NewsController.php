@@ -11,9 +11,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
-use Imagine\Image\Box;
-use Imagine\Image\ImageInterface;
-use Imagine\Imagick\Imagine;
 
 
 /**
@@ -81,32 +78,10 @@ class NewsController extends DashboardController
     {
         $model = new News();
 
-        if ($model->load(Yii::$app->request->post()) )  {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() )  {
 
-
-            // название картинки как название заголовка новости
-            $imageName = $model->title;
-
-
-            // сохраняем файл
-            $model->file = UploadedFile::getInstance($model,'file');
-
-            $model->file->saveAs('uploads/' . $imageName . '.' . $model->file->extension);
-
-
-            // меняем размер изображения
-            $imagine = new Imagine();
-
-            $imagine->open('uploads/' . $imageName . '.' . $model->file->extension)
-                ->thumbnail(new Box(1280, 960), ImageInterface::THUMBNAIL_INSET)
-                ->save('uploads/' . $imageName . '.' . $model->file->extension);
-
-
-            // сохраняем название файла в БД
-            $model->image = 'uploads/' . $imageName . '.' . $model->file->extension;
-
+            $model->saveFile();
             $model->save();
-
 
             return $this->redirect('index');
 
@@ -127,29 +102,10 @@ class NewsController extends DashboardController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) )  {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() )  {
 
-            // название картинки как название заголовка новости
-            $imageName = $model->title;
-
-            // сохраняем файл
-            $model->file = UploadedFile::getInstance($model,'file');
-
-            $model->file->saveAs('uploads/' . $imageName . '.' . $model->file->extension);
-
-
-            // меняем размер изображения
-            $imagine = new Imagine();
-
-            $imagine->open('uploads/' . $imageName . '.' . $model->file->extension)
-                ->thumbnail(new Box(1100, 960), ImageInterface::THUMBNAIL_INSET)
-                ->save('uploads/' . $imageName . '.' . $model->file->extension);
-
-            // сохраняем название файла в БД
-            $model->image = 'uploads/' . $imageName . '.' . $model->file->extension;
-
+            $model->saveFile();
             $model->save();
-
 
             return $this->redirect(['view', 'id' => $model->id]);
 
