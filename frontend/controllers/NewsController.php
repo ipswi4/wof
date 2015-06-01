@@ -59,18 +59,23 @@ class NewsController extends Controller {
         }
     }
 
-    public function actionVoting($id, $voteStatus){
+    public function actionVoting($id){
 
         $model = News::findOne($id);
         /** @var News $model */
 
+        $voteStatus = Yii::$app->request->post('voteStatus');
 
         $rating = $model->rating;
 
-        // записываем значение в сессию
+        if(Yii::$app->session->get('vote'))
+            $arr = Yii::$app->session->get('vote');
 
-        // todo певести на массивы
-        Yii::$app->session->set('vote', 1);
+        $arr[] = 'news' . $id;
+
+        // записываем значение в сессию
+        Yii::$app->session->set('vote', $arr);
+
 
         if($voteStatus == 'up')
         {
@@ -79,7 +84,6 @@ class NewsController extends Controller {
         else if($voteStatus == 'down')
         {
             $model->rating = $rating - 1;
-
         }
 
         $model->save();

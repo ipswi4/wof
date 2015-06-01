@@ -104,15 +104,18 @@ class News extends \yii\db\ActiveRecord
     public function saveFile()
     {
 
-        // название картинки как название заголовка новости
-        $imageName = $this->title.'_'.Yii::$app->security->generateRandomString(6);
+        // название картинки как название заголовка новости + рэндомная строка
+        $imageName = $this->title . '_' . Yii::$app->security->generateRandomString(6);
 
-        // сохраняем файл
+
         $file = UploadedFile::getInstance($this,'file');
 
         if($file)
         {
+            // находим расширения файла
             $ext = end(explode(".", $file->name));
+
+            // сохраняем файл
             $file->saveAs('uploads/' . $imageName . '.' . $ext);
 
             // меняем размер изображения
@@ -133,7 +136,8 @@ class News extends \yii\db\ActiveRecord
 
         if ($imagine->open('uploads/' . $fullImageName)
             ->thumbnail(new Box(1000, 960), ImageInterface::THUMBNAIL_INSET)
-            ->save('uploads/' . $fullImageName)){
+            ->save('uploads/' . $fullImageName))
+        {
             return 'uploads/' . $fullImageName;
         }
 
@@ -141,11 +145,18 @@ class News extends \yii\db\ActiveRecord
 
     }
 
-    public static function isVoting(){
 
-        //$this->id;
+    public function isVoting($id){
 
-        // todo
+        if(Yii::$app->session->get('vote')) {
+
+            $arr = Yii::$app->session->get('vote');
+
+            var_dump($arr);
+
+            if (in_array('news' . $id, $arr))
+                return true;
+        }
 
         return false;
     }

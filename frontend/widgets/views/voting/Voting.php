@@ -9,15 +9,9 @@ use frontend\modules\admin\models\News;
  * @var $model News
  */
 
-$js = <<<JS
-
-    alert('hello');
-
-
-JS;
 
 // проверяем значение в сессии
-if($model->isVoting())
+if($model->isVoting($model->id))
 {
     ?>
     <h2><?= "Рейтинг: " . $model->rating; ?></h2>
