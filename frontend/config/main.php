@@ -11,6 +11,13 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+
+    'modules' => [
+        'admin' => [
+            'class' => 'frontend\modules\admin\AdminModule',
+        ],
+    ],
+
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
@@ -34,13 +41,38 @@ return [
             'rules' => [
                 'gii' => 'gii',
                 'debug' => 'debug',
+
+
+                // league
                 'league/<id:\d+>' => 'league/view',
 
+
+                // club
                 'club/<id:\d+>' => 'club/view',
 
+
+                // season
                 'season/<id:\d+>' => 'season/view',
                 'season/<id:\d+>/calendar' => 'season/calendar',
                 'season/<id:\d+>/generate' => 'season/generate',
+
+
+                // news
+                'news/<id:\d+>' => 'news/view',
+                'news' => 'news/list',
+
+
+                // admin
+                'admin'=>'admin/default/index',
+
+
+                // captcha
+                'admin/site/captcha'=>'site/captcha',
+
+
+                '<controller:\w+>/page/<page:\d+>' => '<controller>/index',
+                '<controller:\w+>' => '<controller>/index',
+
 
                 '<cmd:\w+>/<action:\w+>'=>'<cmd>/<action>',
                 '<cmd:\w+>/<action:\w+>/<state:\w+>'=>'<cmd>/<action>/<state>',

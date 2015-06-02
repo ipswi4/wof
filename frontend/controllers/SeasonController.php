@@ -3,16 +3,18 @@
 namespace frontend\controllers;
 
 use common\helpers\api\GeneratorSeason;
-use common\models\League;
 use common\models\Match;
 use common\models\MatchResult;
 use common\models\Season;
 use common\models\Tour;
+use common\models\Player;
+use common\models\Position;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
 class SeasonController extends \yii\web\Controller
 {
+
     public function actionView($id)
     {
         return $this->render('view', ['season'=>$this->findModel($id)]);
@@ -26,6 +28,7 @@ class SeasonController extends \yii\web\Controller
 
         return $this->render('calendar', ['season'=>$season]);
     }
+
 
     public function actionNextGame()
     {
@@ -41,9 +44,35 @@ class SeasonController extends \yii\web\Controller
 
         foreach($matches as $match){
 
-            $score1 = rand(0,5);
-            $score2 = rand(0,5);
+            // определяем номер команды
+            $team1 = $match->team1;
+            $team2 = $match->team2;
 
+            // находим сумму power команд
+            $powerSum1 = $this->findPowerTeam($team1);
+            $powerSum2 = $this->findPowerTeam($team2);
+
+            $score1 = 0;
+            $score2 = 0;
+
+            // определяем счет
+            if ($powerSum1>$powerSum2){
+                $score1 = rand(2,5);
+                $score2 = rand(0,3);
+            }
+
+            if ($powerSum1==$powerSum2){
+                $score1 = rand(1,5);
+                $score2 = rand(0,5);
+            }
+
+            if ($powerSum1<$powerSum2){
+                $score1 = rand(0,3);
+                $score2 = rand(2,5);
+            }
+
+
+            // сравниваем счет
             if ($score1>$score2){
                 $match->result_id = MatchResult::WIN1;
             }
@@ -59,6 +88,7 @@ class SeasonController extends \yii\web\Controller
             $match->score = $score1.":".$score2;
 
             $match->save();
+
         }
 
         $nextTour->played = Tour::PLAYED;
@@ -106,5 +136,35 @@ class SeasonController extends \yii\web\Controller
     }
 
 
+    /**
+     * Считает силу состава
+     * @param $team id команды
+     * @return int сила команды
+     */
+    protected function findPowerTeam($team)
+    {
+
+        $roster = [];
+
+        // находим всех игроков данного клуба, сортируя по power
+        $allPlayers = Player::find()
+            ->where(['club_id' => $team])
+            ->orderBy(['power'=>SORT_DESC])
+            ->all();
+
+        foreach($allPlayers as $player)
+        {
+            /** @var Player $player */
+
+            $roster[$player->position_id][] = $player->power;
+
+        }
+
+        return $roster[Position::GK][0] + $roster[Position::LD][0] + $roster[Position::CD][0] +
+               $roster[Position::CD][1] + $roster[Position::RD][0] + $roster[Position::LM][0] +
+               $roster[Position::CM][0] + $roster[Position::CM][1] + $roster[Position::RM][0] +
+               $roster[Position::CF][0] + $roster[Position::CF][1];
+
+    }
 
 }
