@@ -152,8 +152,6 @@ class News extends \yii\db\ActiveRecord
 
             $arr = Yii::$app->session->get('vote');
 
-            var_dump($arr);
-
             if (in_array('news' . $id, $arr))
                 return true;
         }

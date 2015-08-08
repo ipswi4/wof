@@ -17,7 +17,13 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*"
+        "yiisoft/yii2-swiftmailer": "*",
+        "2amigos/yii2-taggable-behavior": "*",
+        "2amigos/yii2-selectize-widget": "*",
+        "2amigos/yii2-ckeditor-widget": "*",
+        "yiisoft/yii2-imagine": "*",
+        "coderockr/php-query": "*",
+        "fxp/composer-asset-plugin": "~1.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

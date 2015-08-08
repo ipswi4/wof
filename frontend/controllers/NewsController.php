@@ -6,6 +6,7 @@ namespace frontend\controllers;
 use frontend\modules\admin\models\News;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -61,10 +62,13 @@ class NewsController extends Controller {
 
     public function actionVoting($id){
 
+        if (!Yii::$app->getRequest()->isPjax)
+            throw new BadRequestHttpException();
+
         $model = News::findOne($id);
         /** @var News $model */
 
-        $voteStatus = Yii::$app->request->post('voteStatus');
+        $voteStatus = Yii::$app->request->get('voteStatus');
 
         $rating = $model->rating;
 
@@ -88,7 +92,9 @@ class NewsController extends Controller {
 
         $model->save();
 
-        Yii::$app->response->redirect(['news/view','id'=>$model->id]);
+        return $this->actionView($id);
+
+        //Yii::$app->response->redirect(['news/view','id'=>$model->id]);
 
     }
 

@@ -21,5 +21,6 @@ use yii\helpers\Html;
         ],
 
         'text',
+        'rating',
     ],
 ]); ?>
